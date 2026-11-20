@@ -1,176 +1,245 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>คำถาม</title>
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Kanit', sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เลือกคำตอบ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background-color: #0d0d12;
-      color: #ffffff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
+        body {
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            background-color: #0e0e10;
+            color: #f4f4f6;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
 
-    .card {
-      background-color: #171721;
-      border: 3px solid #2e2e3e;
-      border-radius: 20px;
-      padding: 35px 25px;
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
-    }
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background-color: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 20px;
+            padding: 32px 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+        }
 
-    .question-box {
-      background-color: #222230;
-      border: 2px dashed #4a4a68;
-      border-radius: 14px;
-      padding: 20px 15px;
-      margin-bottom: 25px;
-    }
+        .badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #a1a1aa;
+            background-color: #27272a;
+            padding: 4px 12px;
+            border-radius: 99px;
+            margin-bottom: 18px;
+            letter-spacing: 0.3px;
+        }
 
-    .question-text {
-      font-size: 1.4rem;
-      font-weight: 800;
-      margin: 0;
-      line-height: 1.4;
-      color: #00f5d4;
-    }
+        .question {
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.45;
+            color: #ffffff;
+            margin-bottom: 28px;
+            word-break: break-word;
+        }
 
-    .choices {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
-    .btn {
-      width: 100%;
-      padding: 16px;
-      font-size: 1.25rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      color: #0d0d12;
-      transition: transform 0.1s ease, filter 0.2s ease;
-    }
+        .choice-btn {
+            width: 100%;
+            background-color: #222226;
+            color: #f4f4f6;
+            border: 1px solid #323238;
+            border-radius: 14px;
+            padding: 16px 20px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+        }
 
-    .btn:active {
-      transform: scale(0.95);
-    }
+        .choice-btn:hover {
+            background-color: #2a2a30;
+            border-color: #52525b;
+        }
 
-    .btn-1 {
-      background-color: #00f5d4;
-      box-shadow: 0 5px 0 #00a892;
-    }
+        .choice-btn:active {
+            transform: scale(0.98);
+        }
 
-    .btn-2 {
-      background-color: #ff477e;
-      color: #ffffff;
-      box-shadow: 0 5px 0 #b81d4a;
-    }
+        .choice-btn.selected {
+            background-color: #f4f4f6;
+            color: #0e0e10;
+            border-color: #f4f4f6;
+        }
 
-    .btn-3 {
-      background-color: #fee440;
-      box-shadow: 0 5px 0 #b5a019;
-    }
+        .choice-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
-    .btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 2px solid #52525b;
+            transition: all 0.15s ease;
+        }
 
-    #status {
-      margin-top: 20px;
-      font-size: 1rem;
-      color: #a0a0b8;
-      min-height: 24px;
-    }
-  </style>
+        .choice-btn.selected .dot {
+            background-color: #0e0e10;
+            border-color: #0e0e10;
+        }
+
+        /* สถานะตอนกำลังส่งและส่งสำเร็จ */
+        .status-box {
+            display: none;
+            text-align: center;
+            padding: 24px 0 8px;
+        }
+
+        .status-box.show {
+            display: block;
+        }
+
+        .status-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .status-desc {
+            font-size: 14px;
+            color: #a1a1aa;
+            line-height: 1.5;
+        }
+
+        .loader {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #27272a;
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 14px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
 
-  <div class="card">
-    <div class="question-box">
-      <!-- แก้ไขข้อความคำถามตรงบรรทัดด้านล่างนี้ได้เลย -->
-      <h1 class="question-text" id="question">ขอเลียหีหน่อยได้มั้ยย</p3>
+    <div class="container">
+        <!-- ส่วนของคำถาม -->
+        <div id="quiz-box">
+            <span class="badge">คำถาม 1 ข้อ</span>
+            
+            <!-- แก้ข้อความคำถามตรงบรรทัดด้านล่างนี้ได้เลย -->
+            <h1 class="question" id="question-text">[ใส่คำถามของคุณตรงนี้]</h1>
+
+            <div class="options">
+                <button type="button" class="choice-btn" onclick="submitAnswer(this, 'ได้')">
+                    <span>ได้</span>
+                    <span class="dot"></span>
+                </button>
+
+                <button type="button" class="choice-btn" onclick="submitAnswer(this, 'ไม่เอาา')">
+                    <span>ไม่เอาา</span>
+                    <span class="dot"></span>
+                </button>
+
+                <button type="button" class="choice-btn" onclick="submitAnswer(this, 'มาาา')">
+                    <span>มาาา</span>
+                    <span class="dot"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ส่วนแสดงผลตอนส่งข้อมูล -->
+        <div id="status-box" class="status-box">
+            <div id="loader" class="loader"></div>
+            <div id="status-title" class="status-title">กำลังส่งคำตอบ...</div>
+            <div id="status-desc" class="status-desc">รอแป๊บเดียว</div>
+        </div>
     </div>
 
-    <div class="choices">
-      <button class="btn btn-1" onclick="sendAnswer('ได้')">ได้</button>
-      <button class="btn btn-2" onclick="sendAnswer('ไม่เอาา')">ไม่เอาา</button>
-      <button class="btn btn-3" onclick="sendAnswer('มาาา')">มาาา</button>
-    </div>
+    <script>
+        const FORMSPREE_URL = "https://formspree.io/f/mqpqpjez";
+        let isSubmitting = false;
 
-    <div id="status"></div>
-  </div>
+        async function submitAnswer(buttonElement, choiceValue) {
+            if (isSubmitting) return;
+            isSubmitting = true;
 
-  <script>
-    // เสียงกดปุ่มแบบกวนๆ ด้วย Web Audio API (ไม่ต้องใช้ไฟล์เสียงเพิ่ม)
-    function playBeep(freq) {
-      try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(freq, ctx.currentTime);
-        gain.gain.setValueAtTime(0.2, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.15);
-      } catch (e) {}
-    }
+            // ไฮไลต์ปุ่มที่กดและล็อกปุ่มทั้งหมดกันกดเบิ้ล
+            buttonElement.classList.add('selected');
+            const allButtons = document.querySelectorAll('.choice-btn');
+            allButtons.forEach(btn => btn.disabled = true);
 
-    function sendAnswer(choice) {
-      const statusEl = document.getElementById('status');
-      const questionText = document.getElementById('question').innerText;
-      const buttons = document.querySelectorAll('.btn');
+            const questionText = document.getElementById('question-text').innerText;
 
-      // เล่นเสียงตามปุ่มที่กด
-      if (choice === 'ได้') playBeep(520);
-      else if (choice === 'ไม่เอาา') playBeep(240);
-      else playBeep(680);
+            // หน่วงนิดนึงให้เห็นจังหวะกดปุ่มสวยๆ แล้วค่อยเปลี่ยนหน้าจอ
+            setTimeout(async () => {
+                document.getElementById('quiz-box').style.display = 'none';
+                const statusBox = document.getElementById('status-box');
+                statusBox.classList.add('show');
 
-      // ปิดปุ่มกันกดซ้ำ
-      buttons.forEach(btn => btn.disabled = true);
-      statusEl.innerText = 'กำลังส่งคำตอบ...';
+                try {
+                    const response = await fetch(FORMSPREE_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            คำถาม: questionText,
+                            คำตอบที่เลือก: choiceValue,
+                            เวลาที่ตอบ: new Date().toLocaleString('th-TH')
+                        })
+                    });
 
-      // สร้างฟอร์มจำลองแล้วส่งข้อมูลไปที่ Formspree
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = 'https://formspree.io/f/mqpqpjez';
+                    document.getElementById('loader').style.display = 'none';
 
-      const qInput = document.createElement('input');
-      qInput.type = 'hidden';
-      qInput.name = 'คำถาม';
-      qInput.value = questionText;
-
-      const aInput = document.createElement('input');
-      aInput.type = 'hidden';
-      aInput.name = 'คำตอบที่เลือก';
-      aInput.value = choice;
-
-      form.appendChild(qInput);
-      form.appendChild(aInput);
-      document.body.appendChild(form);
-      form.submit();
-    }
-  </script>
+                    if (response.ok) {
+                        document.getElementById('status-title').innerText = 'ส่งคำตอบเรียบร้อย';
+                        document.getElementById('status-desc').innerText = `คุณเลือก "${choiceValue}" บันทึกข้อมูลแล้ว`;
+                    } else {
+                        throw new Error('ส่งไม่สำเร็จ');
+                    }
+                } catch (error) {
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('status-title').innerText = 'เกิดข้อผิดพลาด';
+                    document.getElementById('status-desc').innerText = 'ส่งคำตอบไม่ได้ ลองรีเฟรชหน้าแล้วกดใหม่อีกที';
+                }
+            }, 250);
+        }
+    </script>
 
 </body>
 </html>
