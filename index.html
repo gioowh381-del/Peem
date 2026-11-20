@@ -161,7 +161,7 @@
             <span class="badge">คำถาม 1 ข้อ</span>
             
             <!-- แก้ข้อความคำถามตรงบรรทัดด้านล่างนี้ได้เลย -->
-            <h1 class="question" id="question-text">[ใส่คำถามของคุณตรงนี้]</h1>
+            <h1 class="question" id="question-text">ขอเลียหีหน่อยได้มั้ยยย</h1>
 
             <div class="options">
                 <button type="button" class="choice-btn" onclick="submitAnswer(this, 'ได้')">
@@ -227,7 +227,7 @@
                     document.getElementById('loader').style.display = 'none';
 
                     if (response.ok) {
-                        document.getElementById('status-title').innerText = 'ส่งคำตอบเรียบร้อย';
+                        document.getElementById('status-title').innerText = 'ส่งคำตอบเรียบร้อยแต่เมื่อกี้หยอกๆ';
                         document.getElementById('status-desc').innerText = `คุณเลือก "${choiceValue}" บันทึกข้อมูลแล้ว`;
                     } else {
                         throw new Error('ส่งไม่สำเร็จ');
